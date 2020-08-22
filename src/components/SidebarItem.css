@@ -8,6 +8,7 @@
 
 .sidebaritem:hover {
 	color: var(--hover-link-color);
+	cursor: pointer;
 }
 
 .sidebaritem--selected {
