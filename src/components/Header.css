@@ -1,0 +1,42 @@
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 8px;
+	margin-bottom: 55px;
+}
+
+.header__search {
+	display: flex;
+	padding: 8px 13px;
+	color: gray;
+	border: 1px lightgray solid;
+	border-radius: 100px;
+}
+
+.header__search > input {
+	background-color: transparent;
+	border: none;
+	min-width: 35vw;
+	font-weight: 600;
+}
+
+.header__buttons {
+	display: flex;
+	align-items: center;
+}
+
+.header__buttons > .MuiSvgIcon-root {
+	margin-right: 26px;
+	font-size: 28px;
+	cursor: pointer;
+}
+
+.header__buttons > .MuiAvatar-circle {
+	margin-right: 8px;
+	cursor: pointer;
+}
+
+.header__buttons > p {
+	font-weight: 500;
+}

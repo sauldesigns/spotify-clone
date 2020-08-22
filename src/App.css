@@ -13,3 +13,11 @@ body {
 	display: flex;
 	height: 100vh;
 }
+
+.app__content {
+	width: 100%;
+	padding-left: 56px;
+	padding-right: 56px;
+	padding-top: 26px;
+	padding-bottom: 26px;
+}
