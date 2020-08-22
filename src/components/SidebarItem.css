@@ -1,0 +1,23 @@
+.sidebaritem {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	transition: color 0.15s ease-in;
+}
+
+.sidebaritem:hover {
+	color: var(--hover-link-color);
+}
+
+.sidebaritem--selected {
+	color: var(--active-link-color);
+}
+
+.sidebaritem__icon {
+	margin-right: 8px;
+}
+
+.sidebaritem__title {
+	font-weight: 600;
+}
