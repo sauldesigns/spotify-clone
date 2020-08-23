@@ -6,6 +6,11 @@ export const initialState = {
 	top_artists: null,
 	playing: false,
 	item: null,
+	volume: 100,
+	device_id: null,
+	shuffle: false,
+	repeat: false,
+	featured_playlists: [],
 };
 
 export const actionTypes = {
@@ -18,6 +23,24 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				user: action.user,
+			};
+
+		case 'SET_SHUFFLE':
+			return {
+				...state,
+				shuffle: action.shuffle,
+			};
+
+		case 'SET_REPEAT':
+			return {
+				...state,
+				repeat: action.repeat,
+			};
+
+		case 'SET_DEVICE_ID':
+			return {
+				...state,
+				device_id: action.device_id,
 			};
 
 		case 'SET_PLAYING':
@@ -37,11 +60,21 @@ const reducer = (state, action) => {
 				...state,
 				discover_weekly: action.discover_weekly,
 			};
-
+		case 'SET_FEATURED_PLAYLISTS':
+			return {
+				...state,
+				featured_playlists: action.featured_playlists,
+			};
 		case 'SET_TOP_ARTISTS':
 			return {
 				...state,
 				top_artists: action.top_artists,
+			};
+
+		case 'SET_VOLUME':
+			return {
+				...state,
+				volume: action.volume,
 			};
 
 		case 'SET_TOKEN':

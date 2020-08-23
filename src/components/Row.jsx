@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Row.css';
 import AlbumCover from './AlbumCover';
 import { useStateValue } from '../provider/StateProvider';
 
-function Row({ list = [] }) {
+function Row({ list = [], artist, track }) {
 	const [{ spotify }, dispatch] = useStateValue();
 
+	useEffect(() => {
+		spotify.getMyCurrentPlayingTrack().then((r) => {
+			dispatch({
+				type: 'SET_ITEM',
+				item: r.item,
+			});
+			dispatch({
+				type: 'SET_PLAYING',
+				playing: true,
+			});
+		});
+	}, [spotify, dispatch]);
+
 	const playPlaylist = (id) => {
-		console.log(id);
 		spotify
 			.play({
 				context_uri: id,
@@ -51,7 +63,11 @@ function Row({ list = [] }) {
 				{list?.items?.map((playlist) => (
 					<AlbumCover
 						className='row__cover'
-						onClick={() => playPlaylist(playlist?.uri)}
+						artist={artist}
+						track={track}
+						onClick={() =>
+							track ? playSong(playlist?.uri) : playPlaylist(playlist?.uri)
+						}
 						key={playlist?.id}
 						title={playlist?.name}
 						author={playlist?.owner?.display_name}

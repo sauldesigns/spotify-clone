@@ -1,7 +1,7 @@
 import React from 'react';
 import './AlbumCover.css';
 
-function AlbumCover({ title, author, imgUrl, onClick }) {
+function AlbumCover({ title, artist, track, author, imgUrl, onClick }) {
 	return (
 		<div className='albumcover'>
 			<img src={imgUrl} alt={title} />
@@ -10,9 +10,17 @@ function AlbumCover({ title, author, imgUrl, onClick }) {
 				<h3 onClick={onClick} className='albumcover__title'>
 					{title}
 				</h3>
-				<h5 onClick={onClick} className='albumcover__author'>
-					{author}
-				</h5>
+
+				{artist ? (
+					<div>
+						<br />
+						<br />
+					</div>
+				) : (
+					<h5 onClick={onClick} className='albumcover__author'>
+						{author}
+					</h5>
+				)}
 			</div>
 		</div>
 	);

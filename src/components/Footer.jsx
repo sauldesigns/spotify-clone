@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Footer.css';
 import { useStateValue } from '../provider/StateProvider';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
@@ -9,15 +9,18 @@ import RepeatIcon from '@material-ui/icons/Repeat';
 import VolumeDownIcon from '@material-ui/icons/VolumeDown';
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
+import RepeatOneIcon from '@material-ui/icons/RepeatOne';
 import { Grid, Slider } from '@material-ui/core';
 
 function Footer({ spotify }) {
-	const [{ token, item, playing }, dispatch] = useStateValue();
+	const [
+		{ item, playing, device_id, shuffle, repeat },
+		dispatch,
+	] = useStateValue();
+	const [volumeSlider, setVolumeSlider] = useState(100);
 
 	useEffect(() => {
 		spotify.getMyCurrentPlaybackState().then((r) => {
-			console.log(r);
-
 			dispatch({
 				type: 'SET_PLAYING',
 				playing: r.is_playing,
@@ -27,8 +30,28 @@ function Footer({ spotify }) {
 				type: 'SET_ITEM',
 				item: r.item,
 			});
+
+			dispatch({
+				type: 'SET_SHUFFLE',
+				shuffle: r.shuffle_state,
+			});
+
+			dispatch({
+				type: 'SET_REPEAT',
+				repeat: r.repeat_state,
+			});
+
+			dispatch({
+				type: 'SET_VOLUME',
+				volume: r.device.volume_percent,
+			});
+
+			dispatch({
+				type: 'SET_DEVICE_ID',
+				device_id: r.device.id,
+			});
 		});
-	}, [spotify]);
+	}, [item, playing, spotify, dispatch]);
 
 	const handlePlayPause = () => {
 		if (playing) {
@@ -74,6 +97,40 @@ function Footer({ spotify }) {
 		});
 	};
 
+	const changeVolume = (e, value) => {
+		spotify.setVolume(value, { device_id: device_id });
+		setVolumeSlider(value);
+
+		dispatch({
+			type: 'SET_VOLUME',
+			volume: value,
+		});
+	};
+
+	const changeRepeat = () => {
+		let temp = '';
+		if (repeat === 'off') {
+			temp = 'context';
+		} else if (repeat === 'context') {
+			temp = 'track';
+		} else {
+			temp = 'off';
+		}
+		spotify.setRepeat(temp);
+		dispatch({
+			type: 'SET_REPEAT',
+			repeat: temp,
+		});
+	};
+
+	const changeShuffle = () => {
+		spotify.setShuffle(!shuffle);
+		dispatch({
+			type: 'SET_SHUFFLE',
+			shuffle: !shuffle,
+		});
+	};
+
 	return (
 		<div className='footer'>
 			<div className='footer__left'>
@@ -96,8 +153,11 @@ function Footer({ spotify }) {
 			</div>
 
 			<div className='footer__center'>
-				<ShuffleIcon className='footer__green' />
-				<SkipPreviousIcon onClick={skipNext} className='footer__icon' />
+				<ShuffleIcon
+					onClick={() => changeShuffle()}
+					className={`${shuffle && 'footer__green'}`}
+				/>
+				<SkipPreviousIcon onClick={skipPrevious} className='footer__icon' />
 				{playing ? (
 					<PauseCircleOutlineIcon
 						onClick={handlePlayPause}
@@ -111,8 +171,18 @@ function Footer({ spotify }) {
 						className='footer__icon'
 					/>
 				)}
-				<SkipNextIcon onClick={skipPrevious} className='footer__icon' />
-				<RepeatIcon className='footer__green' />
+				<SkipNextIcon onClick={skipNext} className='footer__icon' />
+				{repeat === 'track' ? (
+					<RepeatOneIcon
+						onClick={() => changeRepeat()}
+						className='footer__green'
+					/>
+				) : (
+					<RepeatIcon
+						onClick={() => changeRepeat()}
+						className={`${repeat === 'context' && 'footer__green'}`}
+					/>
+				)}
 			</div>
 			<div className='footer__right'>
 				<Grid container spacing={2}>
@@ -124,6 +194,8 @@ function Footer({ spotify }) {
 					</Grid>
 					<Grid item xs>
 						<Slider
+							onChange={changeVolume}
+							value={volumeSlider}
 							style={{ minWidth: 200 }}
 							aria-labelledby='continuous-slider'
 						/>

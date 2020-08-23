@@ -4,6 +4,7 @@
 	margin-right: 16px;
 	margin-left: 16px;
 	border-radius: 20px;
+	cursor: pointer;
 }
 
 .albumcover > img {

@@ -11,19 +11,26 @@ import { getTokenFromResponse } from './services/spotify';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Homepage from './screens/Homepage';
 import Footer from './components/Footer';
+import { useCookies } from 'react-cookie';
 
 const s = new SpotifyWebApi();
 
 function App() {
 	const [{ token }, dispatch] = useStateValue();
+	const [cookies, setCookie] = useCookies(['token']);
 
 	useEffect(() => {
 		// Set token
-		const hash = getTokenFromResponse();
-		window.location.hash = '';
-		let _token = hash.access_token;
+		let _token = cookies.token;
 
-		if (_token) {
+		if (_token === 'undefined' || _token === null || _token === undefined) {
+			const hash = getTokenFromResponse();
+			window.location.hash = '';
+			_token = hash.access_token;
+			setCookie('token', hash.access_token);
+		}
+
+		if (_token !== 'undefined') {
 			s.setAccessToken(_token);
 
 			dispatch({
@@ -42,6 +49,13 @@ function App() {
 				dispatch({
 					type: 'SET_TOP_ARTISTS',
 					top_artists: response,
+				})
+			);
+
+			s.getFeaturedPlaylists().then((response) =>
+				dispatch({
+					type: 'SET_FEATURED_PLAYLISTS',
+					featured_playlists: response,
 				})
 			);
 
@@ -64,7 +78,7 @@ function App() {
 				});
 			});
 		}
-	}, [token, dispatch]);
+	}, [cookies.token, setCookie, token, dispatch]);
 
 	return (
 		<Router>
@@ -78,7 +92,7 @@ function App() {
 							<div className='app__content'>
 								<Header />
 								<Switch>
-									<Route path='/discover' />
+									<Route path='/discover' component={Discover} />
 									<Route path='/'>
 										<Homepage spotify={s} />
 									</Route>

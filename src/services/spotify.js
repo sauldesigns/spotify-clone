@@ -2,8 +2,11 @@
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
 // Replace with your app's client ID, redirect URI and desired scopes
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+// prod redirect uri
+// const redirectUri = 'https://spotify-clone.sauldesigns.me/';
 const redirectUri = 'http://localhost:3000/';
 const scopes = [
+	'streaming',
 	'user-read-currently-playing',
 	'user-read-recently-played',
 	'user-read-playback-state',
