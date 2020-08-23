@@ -1,0 +1,29 @@
+.albumcover {
+	color: black;
+	position: relative;
+	margin-right: 16px;
+	margin-left: 16px;
+	border-radius: 20px;
+}
+
+.albumcover > img {
+	width: 200px;
+	border-radius: 20px;
+	object-fit: contain;
+}
+
+.overlay {
+	background-color: rgba(0, 0, 0, 0.15);
+	position: absolute;
+	top: 0;
+	height: 200px;
+	width: 200px;
+	border-radius: 20px;
+}
+
+.albumcover__info {
+	position: absolute;
+	bottom: 20px;
+	left: 16px;
+	color: white;
+}

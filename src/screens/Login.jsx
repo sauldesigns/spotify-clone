@@ -1,7 +1,6 @@
 import React from 'react';
 import './Login.css';
 import { Button } from '@material-ui/core';
-import { useStateValue } from '../provider/StateProvider';
 import { accessUrl } from '../services/spotify';
 
 function Login() {

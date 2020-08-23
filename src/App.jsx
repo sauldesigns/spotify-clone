@@ -9,6 +9,8 @@ import Login from './screens/Login';
 import { useStateValue } from './provider/StateProvider';
 import { getTokenFromResponse } from './services/spotify';
 import SpotifyWebApi from 'spotify-web-api-js';
+import Homepage from './screens/Homepage';
+import Footer from './components/Footer';
 
 const s = new SpotifyWebApi();
 
@@ -70,15 +72,20 @@ function App() {
 				{!token ? (
 					<Login />
 				) : (
-					<div className='app__body'>
-						<Sidebar />
-						<div className='app__content'>
-							<Header />
-							<Switch>
-								<Route path='/discover' component={Discover} />
-								<Route path='/' />
-							</Switch>
+					<div>
+						<div className='app__body'>
+							<Sidebar />
+							<div className='app__content'>
+								<Header />
+								<Switch>
+									<Route path='/discover' />
+									<Route path='/'>
+										<Homepage spotify={s} />
+									</Route>
+								</Switch>
+							</div>
 						</div>
+						<Footer spotify={s} />
 					</div>
 				)}
 			</div>
