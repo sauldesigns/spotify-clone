@@ -1,0 +1,19 @@
+.tracklistItem {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: space-between;
+	height: 60px;
+	cursor: pointer;
+	margin: 8px 0px;
+}
+
+.tracklistItem__left {
+	display: flex;
+	align-items: center;
+}
+
+.tracklistItem__info {
+	margin-left: 16px;
+	margin-right: 16px;
+}

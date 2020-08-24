@@ -25,9 +25,14 @@ function App() {
 
 		if (_token === 'undefined' || _token === null || _token === undefined) {
 			const hash = getTokenFromResponse();
+			let dt = new Date();
+			dt.setMinutes(dt.getMinutes + 60);
 			window.location.hash = '';
 			_token = hash.access_token;
-			setCookie('token', hash.access_token);
+			console.log(dt.getDate());
+			setCookie('token', hash.access_token, {
+				expires: dt.getDate(),
+			});
 		}
 
 		if (_token !== 'undefined') {
@@ -51,6 +56,13 @@ function App() {
 					top_artists: response,
 				})
 			);
+
+			s.getMyRecentlyPlayedTracks().then((res) => {
+				dispatch({
+					type: 'SET_RECENTLY_PLAYED',
+					recently_played: res,
+				});
+			});
 
 			s.getFeaturedPlaylists().then((response) =>
 				dispatch({

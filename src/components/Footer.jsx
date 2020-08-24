@@ -10,6 +10,7 @@ import VolumeDownIcon from '@material-ui/icons/VolumeDown';
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
 import RepeatOneIcon from '@material-ui/icons/RepeatOne';
+import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import { Grid, Slider } from '@material-ui/core';
 
 function Footer({ spotify }) {
@@ -41,15 +42,15 @@ function Footer({ spotify }) {
 				repeat: r.repeat_state,
 			});
 
-			dispatch({
-				type: 'SET_VOLUME',
-				volume: r.device.volume_percent,
-			});
+			// dispatch({
+			// 	type: 'SET_VOLUME',
+			// 	volume: r.device.volume_percent,
+			// });
 
-			dispatch({
-				type: 'SET_DEVICE_ID',
-				device_id: r.device.id,
-			});
+			// dispatch({
+			// 	type: 'SET_DEVICE_ID',
+			// 	device_id: r.device.id,
+			// });
 		});
 	}, [item, playing, spotify, dispatch]);
 
@@ -98,13 +99,13 @@ function Footer({ spotify }) {
 	};
 
 	const changeVolume = (e, value) => {
-		spotify.setVolume(value, { device_id: device_id });
+		// spotify.setVolume(value, { device_id: device_id });
 		setVolumeSlider(value);
 
-		dispatch({
-			type: 'SET_VOLUME',
-			volume: value,
-		});
+		// dispatch({
+		// 	type: 'SET_VOLUME',
+		// 	volume: value,
+		// });
 	};
 
 	const changeRepeat = () => {
@@ -134,11 +135,15 @@ function Footer({ spotify }) {
 	return (
 		<div className='footer'>
 			<div className='footer__left'>
-				<img
-					className='footer__albumLogo'
-					src={item?.album.images[0].url}
-					alt={item?.name}
-				/>
+				{item ? (
+					<img className='footer__albumLogo' alt='album cover' />
+				) : (
+					<img
+						className='footer__albumLogo'
+						src={item?.album.images[0].url}
+						alt={item?.name}
+					/>
+				)}
 				{item ? (
 					<div className='footer__songInfo'>
 						<h4>{item.name}</h4>

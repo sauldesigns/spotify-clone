@@ -1,0 +1,24 @@
+.homepage {
+	display: flex;
+	height: 100vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+	justify-content: space-between;
+	padding-right: 16px;
+	padding-left: 16px;
+}
+
+.homepage__left {
+	display: flex;
+	flex-direction: column;
+	margin-right: 100px;
+}
+
+.homepage__right {
+	max-width: 600px;
+	margin-left: 100px;
+}
+
+.homepage__right > h1 {
+	text-align: center;
+}

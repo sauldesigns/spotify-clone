@@ -15,13 +15,14 @@ const scopes = [
 ];
 
 export const getTokenFromResponse = () => {
+	console.log(window.location.hash);
 	return window.location.hash
 		.substring(1)
 		.split('&')
 		.reduce((initial, item) => {
 			var parts = item.split('=');
 			initial[parts[0]] = decodeURIComponent(parts[1]);
-
+			console.log(initial);
 			return initial;
 		}, {});
 };

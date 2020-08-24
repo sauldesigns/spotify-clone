@@ -11,6 +11,7 @@ export const initialState = {
 	shuffle: false,
 	repeat: false,
 	featured_playlists: [],
+	recently_played: [],
 };
 
 export const actionTypes = {
@@ -59,6 +60,11 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				discover_weekly: action.discover_weekly,
+			};
+		case 'SET_RECENTLY_PLAYED':
+			return {
+				...state,
+				recently_played: action.recently_played,
 			};
 		case 'SET_FEATURED_PLAYLISTS':
 			return {
